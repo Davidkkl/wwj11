@@ -97,3 +97,8 @@ Route::middleware('jwt.role:admins')->prefix('admins')->group(function () {
 Route::post('user/forgotPassword', [LywController::class, 'LywUpdatePassword']);//忘记密码
 
 Route::post('admin/password', [LywController::class, 'AdminPassword']);//老师密码加密
+
+
+
+Route::post('/student/research/software',[\App\Http\Controllers\WkxController::class,'chaxun']);//学生查询科研之星
+Route::post('/student/research/software/{id}',[\App\Http\Controllers\WkxController::class,'shanchu']);//学生删除
