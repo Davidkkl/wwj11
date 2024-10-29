@@ -40,7 +40,7 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'admin' => [
+        'admins' => [
             'driver' => 'jwt',
             'provider' => 'admins',
         ],
@@ -51,7 +51,7 @@ return [
         ],
         'student' => [
             'driver' => 'jwt',
-            'provider' => 'student',
+            'provider' => 'students',
             'hash' => false,
         ],
         'administrator' => [
@@ -98,7 +98,7 @@ return [
             'model' => App\Models\WdwAdminRegisterModel::class,
         ],
 
-        'studentss' => [
+        'students' => [
             'driver' => 'eloquent',
             'model' => App\Models\students::class,
         ],

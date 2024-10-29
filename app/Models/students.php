@@ -239,4 +239,25 @@ class students extends Model
         }, $students);
     }
 
+    public static function LywcreateUser($userdata)
+    {
+        try {
+            $data = Students::insert([
+                'account' => $userdata['account'],
+                'password' => $userdata['password'],
+                'major' => $userdata['major'],
+                'class' => $userdata['class'],
+                'email' => $userdata['email'],
+                'name' => $userdata['name'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            return $data;
+
+        } catch (Exception $e) {
+            return 'error'.$e->getMessage();
+        }
+    }
+
+
 }
