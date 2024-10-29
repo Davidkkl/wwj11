@@ -47,6 +47,10 @@ class MhwController extends Controller//发表论文
             return json_fail('删除失败！请输入正确的ID！', null, 100);
         }
     }
+    public function fuzs()
+    {
+        
+    }
 }
 
 
