@@ -35,6 +35,11 @@ class competition_stars extends Authenticatable implements JWTSubject {
         return ['role => competition_stars'];
     }
 
+    public function student()
+    {
+        return $this->belongsTo(Students::class, 'student_id', 'id');
+    }
+
     public static function check($student_id)
     {
         try {
@@ -57,6 +62,7 @@ class competition_stars extends Authenticatable implements JWTSubject {
         try {
             // 使用 update() 方法来更新记录
             $affectedRows = competition_stars::where('student_id', $student_id)
+                ->where('competition_name', $data['old_competition_name']) // 使用旧名称作为条件
                 ->update([
                     'competition_name' => $data['competition_name'],
                     'registration_time' => $data['registration_time'],
@@ -69,13 +75,23 @@ class competition_stars extends Authenticatable implements JWTSubject {
         }
     }
 
-    public static function deleted($student_id)
+    public static function deleted($data)
     {
         try {
-            $data = competition_stars::where('student_id',$student_id)->delete();
-            return $data;
+            // 查找记录
+            $competition = competition_stars::where('student_id', $data['student_id'])
+                ->where('competition_name', $data['competition_name'])
+                ->first();
+
+            // 如果记录存在，删除它
+            if ($competition) {
+                $competition->delete();
+                return true; // 返回 true 表示成功
+            } else {
+                return '未找到记录'; // 如果没有找到记录
+            }
         } catch (Exception $e) {
-            return 'error' . $e->getMessage();
+            return 'error: ' . $e->getMessage();
         }
     }
 
@@ -86,6 +102,39 @@ class competition_stars extends Authenticatable implements JWTSubject {
             return $data;
         } catch (Exception $e) {
             return 'error' . $e->getMessage();
+        }
+    }
+
+    public static function create($data)
+    {
+        try {
+            $data = competition_stars::insert([
+                'student_id' => $data['student_id'],
+                'competition_name' => $data['competition_name'],
+                'registration_time' => $data['registration_time'],
+                'materials' => $data['materials'],
+            ]);
+            return $data;
+        } catch (Exception $e) {
+            return 'error' . $e->getMessage();
+        }
+    }
+
+    public static function revise_status($student_id, $data)
+    {
+        try {
+            // 使用 update() 方法来更新记录
+            $affectedRows = competition_stars::where('student_id', $student_id)
+                ->where('competition_name', $data['name'])
+                ->update([
+                    'status' => $data['status'],
+                    'rejection_reason' => isset($data['reason']) ? $data['reason'] : null,
+                ]);
+
+            // 返回受影响的行数
+            return $affectedRows;
+        } catch (Exception $e) {
+            return 'error: ' . $e->getMessage();
         }
     }
 }
