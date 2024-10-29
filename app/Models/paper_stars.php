@@ -98,4 +98,45 @@ class paper_stars extends Authenticatable implements JWTSubject
         }
     }
 
+    public static function FindDate($id) // 学生查询
+    {
+        try {
+            $data = paper_stars::where('student_id', $id)
+                ->get([
+                    'journal_name',
+                    'paper_title',
+                    'publication_time',
+                    'materials',
+                    'status',
+                    'rejection_reason'
+                ]);
+
+            return $data->isEmpty() ? null : $data; // 如果没有数据，返回 null
+        } catch (Exception $e) {
+            return 'error ' . $e->getMessage();
+        }
+    }
+    public static function shanchu($user)
+    {
+        try {
+            $dd = paper_stars::where('student_id', $user)
+                ->delete();
+            return $dd;
+        } catch (Exception $e) {
+            return 'error ' . $e->getMessage();
+        }
+    }
+    public static function shuliang($user)
+    {
+        try {
+            $dd = paper_stars::where('student_id', $user)
+                ->count();
+            return $dd;
+        } catch (Exception $e) {
+            return 'error ' . $e->getMessage();
+        }
+    }
 }
+
+
+

@@ -15,6 +15,8 @@ use App\Http\Controllers\WdwController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::delete('usershanchu/paper_stars/{student_id}', [\App\Http\Controllers\MhwController::class, 'Mhwshanchu']);//学生删除操作
+Route::get('userchaxun/paper_stars/{student_id}', [\App\Http\Controllers\MhwController::class, 'Mhwpapershanxun']);//学生查询操作
 
 //管理员导出Excel表
 Route::get('admin/export-company-star', [WwjController::class, 'exportCompanyStar']);
